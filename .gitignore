@@ -1,0 +1,6 @@
+.env
+/house_env
+agent1.py 
+tests.ipynb
+housing.code-workspace
+
