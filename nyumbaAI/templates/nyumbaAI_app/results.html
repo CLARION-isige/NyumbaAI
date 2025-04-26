@@ -6,14 +6,14 @@
 {% block content %}
 <div class="search-results" style="padding-bottom: 30px;">
     <h2 class="mb-4">Properties in {{ location }}</h2>
-    <p class="lead">Showing results for: "{{ query }}"</p>
+    <p class="lead">Showing results for: {{ query }}</p>
 
     {% if analysis %}
     <div class="analysis-card card mb-4">
 
         <!-- Card Header -->
         <div class="card-header">
-            <h3>AI Analysis</h3>
+            <h3>Groq AI Analysis</h3>
         </div>
 
         <!-- Card Body -->
