@@ -5,6 +5,7 @@ from .services import search_houses, process_search_results, analyze_listings
 from urllib.parse import quote_plus
 from groq import Groq
 import os
+
 import markdown
 
 
@@ -61,6 +62,9 @@ def search(request):
             context = {
                 'listings': processed_listings,
                 "analysis": analysis_html,
+
+                'analysis': analysis,
+
                 'query': raw_query,
                 'location': location,
                 'maps_url': maps_url,

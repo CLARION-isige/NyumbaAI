@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Here's a comprehensive README.md file for your application:
 
 ```markdown
@@ -113,3 +114,7 @@ Project Link: [https://github.com/yourusername/NyumbaAI](https://github.com/your
 - SerpAPI for property data
 - Django Software Foundation
 ```
+=======
+House hunting can be very hectic  especially moving into unknown city or county coming from a personal standpoint.
+
+>>>>>>> 25a559dc7ff81898af22986741591027cf43183c
