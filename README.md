@@ -1,6 +1,4 @@
-Here's a comprehensive README.md file for your application:
 
-```markdown
 # NyumbaAI - Smart Property Search Solution 🏠
 
 A Django-powered web application that simplifies house hunting using AI analysis and real-time property data.
@@ -112,4 +110,3 @@ Project Link: [https://github.com/yourusername/NyumbaAI](https://github.com/your
 - Groq for AI processing capabilities
 - SerpAPI for property data
 - Django Software Foundation
-```

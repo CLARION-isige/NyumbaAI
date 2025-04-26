@@ -33,7 +33,8 @@ def search(request):
 
             # Perform house search
             raw_results = search_houses(location)
-            processed_listings = process_search_results(raw_results)[:6]
+            result = process_search_results(raw_results)[:6]
+            processed_listings = result
 
             # Save search to database
             search_query = SearchQuery.objects.create(

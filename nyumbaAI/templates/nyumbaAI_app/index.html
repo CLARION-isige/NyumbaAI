@@ -5,14 +5,14 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="text-cen</svg>ter mb-5">
+    <div class="text-center mb-5">
         <h1 class="display-4 mb-3">Discover Your Ideal Home Effortlessly</h1>
         <p class="lead">Connecting tenants with landlords directly - Save time, avoid hassles, find your perfect match
         </p>
     </div>
 
     <!-- Benefits Section -->
-    <div class="row g-4 mb-5">
+    <!-- <div class="row g-4 mb-5">
         <div class="col-md-4">
             <div class="card h-100 border-0 shadow">
                 <div class="card-body text-center">
@@ -49,7 +49,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!-- Search Section -->
     <div class="search-container bg-light p-5 rounded-3 shadow">
@@ -76,14 +76,14 @@
 
         <form action="{% url 'nyumbaAI_app:search' %}" method="POST">
             {% csrf_token %}
-            <div class="row g-3">
-                <div class="col-md-6">
+            <div class="column g-3 container--input">
+                <div class="">
                     <input type="text" name="location" class="form-control form-control-lg"
                         placeholder="Enter location (e.g., Westlands, Nairobi)" required>
                 </div>
-                <div class="col-md-6">
-                    <input type="text" name="query" class="form-control form-control-lg"
-                        placeholder="Describe your needs (e.g., 3 bedroom house under Ksh 50k)">
+                <div class="">
+                    <textarea type="text" name="query" class="form-control form-control-lg"
+                        placeholder="Describe your needs (e.g., 3 bedroom house under Ksh 50k)"></textarea>
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary btn-lg w-100 py-3">
@@ -95,7 +95,7 @@
     </div>
 
     <!-- Additional Benefits -->
-    <div class="row mt-5 g-4">
+    <!-- <div class="row mt-5 g-4">
         <div class="col-md-6">
             <div class="p-4 bg-white rounded-3 shadow">
                 <h3 class="h4 mb-3"><i class="bi bi-shield-check text-success me-2"></i>Why Choose Us?</h3>
@@ -115,7 +115,7 @@
 
             </div>
         </div>
-    </div>
+    </div> -->
 
 </div>
 
@@ -138,97 +138,16 @@
         border: 1px solid rgba(13, 110, 253, 0.15);
     }
 
-    .floating-chat {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1000;
+    .container--input div {
+        margin-bottom: 16px;
     }
 
-    .chat-button {
-        background-color: #0d6efd;
-        border: none;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-    }
-
-    .chat-button:hover {
-        background-color: #0b5ed7;
-    }
-
-    .chat-window {
-        display: none;
-        position: fixed;
-        bottom: 90px;
-        right: 20px;
-        width: 400px;
-        height: 700px;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        overflow: hidden;
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .chat-header {
-        background: #0d6efd;
-        color: white;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .close-chat {
-        background: none;
-        border: none;
-        color: white;
-        font-size: 20px;
-        cursor: pointer;
-    }
-
-    .chat-body {
-        padding: 10px;
+    .container--input div textarea {
+        max-height: 3%;
+        min-height: 100px;
+        resize: none;
         overflow-y: auto;
-        flex: 1;
-    }
-
-    .chat-footer {
-        display: flex;
-        padding: 10px;
-        border-top: 1px solid #ddd;
-        position: sticky;
-        bottom: 0;
-        background: white;
-    }
-
-    .chat-input {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        margin-right: 10px;
-    }
-
-    .send-button {
-        background: #0d6efd;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .send-button:hover {
-        background: #0b5ed7;
+        font-size: 18px;
     }
 </style>
 {% endblock %}
