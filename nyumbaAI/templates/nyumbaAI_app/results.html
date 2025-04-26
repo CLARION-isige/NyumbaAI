@@ -4,13 +4,13 @@
 {% block title %}Search Results{% endblock %}
 
 {% block content %}
-<div class="search-results">
+<div class="search-results" style="padding-bottom: 30px;">
     <h2 class="mb-4">Properties in {{ location }}</h2>
     <p class="lead">Showing results for: "{{ query }}"</p>
 
     {% if analysis %}
     <div class="analysis-card card mb-4">
-        
+
         <!-- Card Header -->
         <div class="card-header">
             <h3>AI Analysis</h3>
@@ -24,7 +24,7 @@
         </div>
 
     </div>
-{% endif %}
+    {% endif %}
 
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -39,12 +39,11 @@
                     <p class="card-text text-muted">
                         <i class="bi bi-geo-alt"></i> {{ listing.address }}
                     </p>
-                    
+
                     {% if listing.latitude and listing.longitude %}
                     <div class="mt-2">
-                        <a href="https://www.google.com/maps?q={{ listing.latitude }},{{ listing.longitude }}" 
-                           target="_blank" 
-                           class="btn btn-sm btn-outline-primary">
+                        <a href="https://www.google.com/maps?q={{ listing.latitude }},{{ listing.longitude }}"
+                            target="_blank" class="btn btn-sm btn-outline-primary">
                             <i class="bi bi-map"></i> View on Google Maps
                         </a>
                     </div>
@@ -55,18 +54,16 @@
                         ★ {{ listing.rating }} Rating
                     </div>
                     {% endif %}
-                    
+
                     {% if listing.link and listing.link != '#' %}
-                    <a href="{{ listing.link }}" 
-                       target="_blank" 
-                       class="btn btn-outline-primary mt-2">
+                    <a href="{{ listing.link }}" target="_blank" class="btn btn-outline-primary mt-2">
                         View Property Details
                     </a>
-                {% else %}
+                    {% else %}
                     <button class="btn btn-outline-secondary mt-2" disabled>
                         Details Unavailable
                     </button>
-                {% endif %}
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -78,5 +75,222 @@
         </div>
         {% endfor %}
     </div>
+    <div class="floating-chat">
+        <button onclick="openChat()" class="chat-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
+                <path
+                    d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z" />
+                <path
+                    d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z" />
+            </svg>
+        </button>
+    </div>
+
+    <div id="chatWindow" class="chat-window">
+        <div class="chat-header">
+            <span>Chatbot</span>
+            <button onclick="closeChat()" class="close-chat">&times;</button>
+        </div>
+        <div class="chat-body">
+            <p>Hi! How can I assist you today?</p>
+        </div>
+        <div class="chat-footer">
+            <input type="text" placeholder="Type a message..." class="chat-input">
+            <button class="send-button">Send</button>
+        </div>
+    </div>
+
+
+
+    <script>
+        function openChat() {
+            document.getElementById('chatWindow').style.display = 'flex';
+        }
+
+        function closeChat() {
+            document.getElementById('chatWindow').style.display = 'none';
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            // Capture analysis content
+            const analysisContent = `{{ analysis|escapejs }}`;
+
+            const chatBody = document.querySelector('.chat-body');
+            const chatInput = document.querySelector('.chat-input');
+            const sendButton = document.querySelector('.send-button');
+
+            function appendMessage(message, isUser) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+                messageDiv.innerHTML = `<p>${message}</p>`;
+                chatBody.appendChild(messageDiv);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+
+            async function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+
+                appendMessage(message, true);
+                chatInput.value = '';
+
+                try {
+                    const response = await fetch('/chat/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: `message=${encodeURIComponent(message)}&analysis=${encodeURIComponent(analysisContent)}`
+                    });
+
+                    const data = await response.json();
+                    if (data.response) {
+                        appendMessage(data.response, false);
+                    } else {
+                        appendMessage('Sorry, I didn\'t get that. Please try again.', false);
+                    }
+                } catch (error) {
+                    appendMessage('Connection error. Please check your internet.', false);
+                }
+            }
+
+            sendButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+        });
+    </script>
+    <style>
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #0d6efd;
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .search-container {
+            background: rgba(13, 110, 253, 0.05);
+            border: 1px solid rgba(13, 110, 253, 0.15);
+        }
+
+        .floating-chat {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chat-button {
+            background-color: #0d6efd;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .chat-button:hover {
+            background-color: #0b5ed7;
+        }
+
+        .message.bot {
+            background: #f1f1f1;
+            margin-right: auto;
+            white-space: pre-wrap;
+        }
+
+        .message.bot strong {
+            color: #0d6efd;
+            font-weight: 600;
+        }
+
+        .message.bot ul {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+
+        .message.bot li {
+            margin: 4px 0;
+        }
+
+        .chat-window {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 400px;
+            height: 700px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #0d6efd;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .chat-body {
+            padding: 10px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .chat-footer {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            position: sticky;
+            bottom: 0;
+            background: white;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .send-button {
+            background: #0d6efd;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .send-button:hover {
+            background: #0b5ed7;
+        }
+    </style>
 </div>
 {% endblock %}

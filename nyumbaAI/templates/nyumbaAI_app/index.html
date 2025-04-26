@@ -5,9 +5,10 @@
 
 {% block content %}
 <div class="container mt-5">
-    <div class="text-center mb-5">
+    <div class="text-cen</svg>ter mb-5">
         <h1 class="display-4 mb-3">Discover Your Ideal Home Effortlessly</h1>
-        <p class="lead">Connecting tenants with landlords directly - Save time, avoid hassles, find your perfect match</p>
+        <p class="lead">Connecting tenants with landlords directly - Save time, avoid hassles, find your perfect match
+        </p>
     </div>
 
     <!-- Benefits Section -->
@@ -18,12 +19,13 @@
                     <i class="bi bi-clock-history fs-1 text-primary mb-3"></i>
                     <h3 class="h4 mb-3">Time-Saving Solution</h3>
                     <p class="text-muted">
-                        Skip endless property visits. Our intelligent search filters help you find exactly what you need in minutes.
+                        Skip endless property visits. Our intelligent search filters help you find exactly what you need
+                        in minutes.
                     </p>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
             <div class="card h-100 border-0 shadow">
                 <div class="card-body text-center">
@@ -35,7 +37,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-4">
             <div class="card h-100 border-0 shadow">
                 <div class="card-body text-center">
@@ -53,7 +55,7 @@
     <div class="search-container bg-light p-5 rounded-3 shadow">
         <h2 class="mb-4 text-center">Start Your Hassle-Free Search</h2>
         <p class="text-center mb-4">Find available properties in 3 simple steps:</p>
-        
+
         <div class="row mb-4 text-center">
             <div class="col-md-4 mb-3">
                 <div class="step-number">1</div>
@@ -76,12 +78,12 @@
             {% csrf_token %}
             <div class="row g-3">
                 <div class="col-md-6">
-                    <input type="text" name="location" class="form-control form-control-lg" 
-                           placeholder="Enter location (e.g., Westlands, Nairobi)" required>
+                    <input type="text" name="location" class="form-control form-control-lg"
+                        placeholder="Enter location (e.g., Westlands, Nairobi)" required>
                 </div>
                 <div class="col-md-6">
                     <input type="text" name="query" class="form-control form-control-lg"
-                           placeholder="Describe your needs (e.g., 3 bedroom house under Ksh 50k)">
+                        placeholder="Describe your needs (e.g., 3 bedroom house under Ksh 50k)">
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary btn-lg w-100 py-3">
@@ -98,19 +100,23 @@
             <div class="p-4 bg-white rounded-3 shadow">
                 <h3 class="h4 mb-3"><i class="bi bi-shield-check text-success me-2"></i>Why Choose Us?</h3>
                 <ul class="list-unstyled">
-                    <li class="mb-3"><i class="bi bi-check2-circle me-2 text-primary"></i>Verified property listings</li>
-                    <li class="mb-3"><i class="bi bi-check2-circle me-2 text-primary"></i>Direct landlord connections</li>
-                    <li class="mb-3"><i class="bi bi-check2-circle me-2 text-primary"></i>No agent fees or commissions</li>
+                    <li class="mb-3"><i class="bi bi-check2-circle me-2 text-primary"></i>Verified property listings
+                    </li>
+                    <li class="mb-3"><i class="bi bi-check2-circle me-2 text-primary"></i>Direct landlord connections
+                    </li>
+                    <li class="mb-3"><i class="bi bi-check2-circle me-2 text-primary"></i>No agent fees or commissions
+                    </li>
                 </ul>
             </div>
         </div>
         <div class="col-md-6">
             <div class="p-4 bg-white rounded-3 shadow">
                 <h3 class="h4 mb-3"><i class="bi bi-graph-up text-info me-2"></i>Market Insights</h3>
-                
+
             </div>
         </div>
     </div>
+
 </div>
 
 <style>
@@ -126,9 +132,103 @@
         margin-bottom: 1rem;
         font-weight: bold;
     }
+
     .search-container {
         background: rgba(13, 110, 253, 0.05);
         border: 1px solid rgba(13, 110, 253, 0.15);
+    }
+
+    .floating-chat {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .chat-button {
+        background-color: #0d6efd;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+
+    .chat-button:hover {
+        background-color: #0b5ed7;
+    }
+
+    .chat-window {
+        display: none;
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 400px;
+        height: 700px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-header {
+        background: #0d6efd;
+        color: white;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .close-chat {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .chat-body {
+        padding: 10px;
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .chat-footer {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+        position: sticky;
+        bottom: 0;
+        background: white;
+    }
+
+    .chat-input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+
+    .send-button {
+        background: #0d6efd;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .send-button:hover {
+        background: #0b5ed7;
     }
 </style>
 {% endblock %}
