@@ -75,7 +75,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Groq and SerpAPI configurations
 GROQ_CONFIG = {
-    'model_name': 'mistral-saba-24b',
+    'model_name': 'mistral-saba-24b',#
     'api_key': os.getenv('GROQ_API_KEY')
 }
 
