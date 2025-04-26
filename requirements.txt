@@ -1,0 +1,6 @@
+streamlit==1.35.0
+serpapi==0.1.2
+groq==0.4.1
+folium==0.15.0
+streamlit-folium==0.16.0
+python-dotenv==1.0.1    
