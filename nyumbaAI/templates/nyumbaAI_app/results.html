@@ -10,16 +10,22 @@
 
     {% if analysis %}
     <div class="analysis-card card mb-4">
+        
+        <!-- Card Header -->
         <div class="card-header">
             <h3>AI Analysis</h3>
         </div>
+
+        <!-- Card Body -->
         <div class="card-body">
             <div class="markdown-analysis">
                 {{ analysis|safe }}
             </div>
         </div>
+
     </div>
-    {% endif %}
+{% endif %}
+
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
         {% for listing in listings %}

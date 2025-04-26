@@ -5,6 +5,8 @@ from .services import search_houses, process_search_results, analyze_listings
 from urllib.parse import quote_plus
 from groq import Groq
 import os
+import markdown
+
 
 def home(request):
     """Render the home page search form"""
@@ -49,6 +51,8 @@ def search(request):
 
             # Generate analysis
             analysis = analyze_listings(raw_query, processed_listings)
+            analysis_html = markdown.markdown(analysis)
+            
 
             # Create Google Maps URL
             encoded_location = quote_plus(location)
@@ -56,7 +60,7 @@ def search(request):
 
             context = {
                 'listings': processed_listings,
-                'analysis': analysis,
+                "analysis": analysis_html,
                 'query': raw_query,
                 'location': location,
                 'maps_url': maps_url,
