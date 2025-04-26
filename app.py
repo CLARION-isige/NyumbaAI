@@ -31,7 +31,7 @@ def main():
     with st.container():
         st.subheader("Find Your Dream Property in Kenya")
         user_query = st.text_input(
-            "What kind of property are you looking for?",
+            "Where do you want to find property?",
             placeholder="Example: Show luxury homes for sale in Westlands, Nairobi with good ratings"
         )
         
@@ -104,7 +104,7 @@ def display_search_results(result, location):
     st.subheader("Detailed Property Listings")
     
     # Organize properties into rows of 3
-    properties = result["properties"]
+    properties = result["properties"][:4]
     
     for i in range(0, len(properties), 3):
         cols = st.columns(3)
