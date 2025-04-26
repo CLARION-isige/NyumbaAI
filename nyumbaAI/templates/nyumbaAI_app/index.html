@@ -1,0 +1,134 @@
+{% extends 'nyumbaAI_app/base.html' %}
+{% load static %}
+
+{% block title %}Find Your Perfect Home{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 mb-3">Discover Your Ideal Home Effortlessly</h1>
+        <p class="lead">Connecting tenants with landlords directly - Save time, avoid hassles, find your perfect match</p>
+    </div>
+
+    <!-- Benefits Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow">
+                <div class="card-body text-center">
+                    <i class="bi bi-clock-history fs-1 text-primary mb-3"></i>
+                    <h3 class="h4 mb-3">Time-Saving Solution</h3>
+                    <p class="text-muted">
+                        Skip endless property visits. Our intelligent search filters help you find exactly what you need in minutes.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow">
+                <div class="card-body text-center">
+                    <i class="bi bi-house-check fs-1 text-primary mb-3"></i>
+                    <h3 class="h4 mb-3">Verified Listings</h3>
+                    <p class="text-muted">
+                        Direct connections to property owners and verified agents. No middlemen, no hidden fees.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow">
+                <div class="card-body text-center">
+                    <i class="bi bi-lightning-charge fs-1 text-primary mb-3"></i>
+                    <h3 class="h4 mb-3">Instant Updates</h3>
+                    <p class="text-muted">
+                        Get real-time notifications about new listings and price changes in your preferred areas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="search-container bg-light p-5 rounded-3 shadow">
+        <h2 class="mb-4 text-center">Start Your Hassle-Free Search</h2>
+        <p class="text-center mb-4">Find available properties in 3 simple steps:</p>
+        
+        <div class="row mb-4 text-center">
+            <div class="col-md-4 mb-3">
+                <div class="step-number">1</div>
+                <h4>Enter Location</h4>
+                <p>Where do you want to live?</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="step-number">2</div>
+                <h4>Describe Needs</h4>
+                <p>Bedrooms, price range, features</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="step-number">3</div>
+                <h4>Connect Directly</h4>
+                <p>Contact landlords instantly</p>
+            </div>
+        </div>
+
+        <form action="{% url 'nyumbaAI_app:search' %}" method="POST">
+            {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" name="location" class="form-control form-control-lg" 
+                           placeholder="Enter location (e.g., Westlands, Nairobi)" required>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="query" class="form-control form-control-lg"
+                           placeholder="Describe your needs (e.g., 3 bedroom house under Ksh 50k)">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary btn-lg w-100 py-3">
+                        <i class="bi bi-search me-2"></i>Find My Perfect Home
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Additional Benefits -->
+    <div class="row mt-5 g-4">
+        <div class="col-md-6">
+            <div class="p-4 bg-white rounded-3 shadow">
+                <h3 class="h4 mb-3"><i class="bi bi-shield-check text-success me-2"></i>Why Choose Us?</h3>
+                <ul class="list-unstyled">
+                    <li class="mb-3"><i class="bi bi-check2-circle me-2 text-primary"></i>Verified property listings</li>
+                    <li class="mb-3"><i class="bi bi-check2-circle me-2 text-primary"></i>Direct landlord connections</li>
+                    <li class="mb-3"><i class="bi bi-check2-circle me-2 text-primary"></i>No agent fees or commissions</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-4 bg-white rounded-3 shadow">
+                <h3 class="h4 mb-3"><i class="bi bi-graph-up text-info me-2"></i>Market Insights</h3>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background: #0d6efd;
+        color: white;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        font-weight: bold;
+    }
+    .search-container {
+        background: rgba(13, 110, 253, 0.05);
+        border: 1px solid rgba(13, 110, 253, 0.15);
+    }
+</style>
+{% endblock %}
