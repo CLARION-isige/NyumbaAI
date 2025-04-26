@@ -88,7 +88,7 @@
 
     <div id="chatWindow" class="chat-window">
         <div class="chat-header">
-            <span>Chatbot</span>
+            <h4>NyumbaAI Assistant</h4>
             <button onclick="closeChat()" class="close-chat">&times;</button>
         </div>
         <div class="chat-body">
@@ -96,7 +96,14 @@
         </div>
         <div class="chat-footer">
             <input type="text" placeholder="Type a message..." class="chat-input">
-            <button class="send-button">Send</button>
+            <button class="send-button" style="transform: rotate(90deg);">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" fill="white" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd"
+                        d="M12 2a1 1 0 0 1 .932.638l7 18a1 1 0 0 1-1.326 1.281L13 19.517V13a1 1 0 1 0-2 0v6.517l-5.606 2.402a1 1 0 0 1-1.326-1.281l7-18A1 1 0 0 1 12 2Z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
         </div>
     </div>
 
@@ -202,6 +209,32 @@
         .chat-button:hover {
             background-color: #0b5ed7;
         }
+
+        .message.user {
+            background-color: #007bff;
+            /* Bootstrap blue or use your own */
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin: 10px 0 10px auto;
+            /* Align to right */
+            text-align: left;
+            word-wrap: break-word;
+        }
+
+        .message.bot {
+            background-color: #f1f1f1;
+            color: #333;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            margin: 10px auto 10px 0;
+            /* Align to left */
+            text-align: left;
+            word-wrap: break-word;
+        }
+
 
         .message.bot {
             background: #f1f1f1;
