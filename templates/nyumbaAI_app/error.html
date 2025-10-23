@@ -1,0 +1,14 @@
+{% extends "nyumbaAI_app/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-danger">
+        <h2 class="alert-heading">Error Occurred</h2>
+        <p>{{ error_message }}</p>
+        <hr>
+        <a href="{% url 'nyumbaAI_app:home' %}" class="btn btn-primary">
+            ← Return to Home
+        </a>
+    </div>
+</div>
+{% endblock %}
