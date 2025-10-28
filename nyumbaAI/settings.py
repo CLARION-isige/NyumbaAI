@@ -1,27 +1,43 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import streamlit as st
+from  groq import Groq
+from langsmith import traceable 
 
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = st.secrets.get('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
+if not SECRET_KEY:
+       raise ValueError("SECRET_KEY environment variable must be set")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = st.secrets.get('DEBUG')
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
+GROQ_MODEL_NAME = os.getenv('GROQ_MODEL_NAME')
+GROQ_API_KEY = os.getenv('GROQ_API_KEY')
+if not GROQ_API_KEY:
+    raise ValueError("GROQ_API_KEY environment variable must be set")
+GROQ_CLIENT = Groq(api_key=GROQ_API_KEY)
+GROQ_API_KEY = os.getenv('GROQ_API_KEY')
+GROQ_CLIENT = Groq(api_key=GROQ_API_KEY)
 
-# Groq and SerpAPI configurations
-GROQ_CONFIG = {
-    'model_name': 'openai/gpt-oss-120b',
-    'api_key': st.secrets.get('GROQ_API_KEY')
-}
+SERPAPI_KEY = os.getenv('SERP_API_KEY')
 
-SERPAPI_KEY =  st.secrets.get('SERP_API_KEY')
+# Langsmith tracing
+LANGSMITH_TRACING = os.getenv('LANGSMITH_TRACING', 'True').lower() in ('true', '1', 'yes')
+LANGSMITH_ENDPOINT = os.getenv('LANGSMITH_ENDPOINT')
+LANGSMITH_API_KEY = os.getenv('LANGSMITH_API_KEY')
+LANGSMITH_PROJECT = os.getenv('LANGSMITH_PROJECT')
 
+TRACE = traceable(
+    tracing=LANGSMITH_TRACING,
+    endpoint=LANGSMITH_ENDPOINT,
+    api_key=LANGSMITH_API_KEY,
+    project_name=LANGSMITH_PROJECT
+)
 
 ALLOWED_HOSTS = ['*']
 

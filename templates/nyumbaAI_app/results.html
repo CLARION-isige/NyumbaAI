@@ -5,27 +5,11 @@
 
 {% block content %}
 <div class="search-results" style="padding-bottom: 30px;">
-    <h2 class="mb-4">Properties in {{ location }}</h2>
-    <p class="lead">Showing results for: {{ query }}</p>
-
-    {% if analysis %}
-    <div class="analysis-card card mb-4">
-
-        <!-- Card Header -->
-        <div class="card-header">
-            <h3>Groq AI Analysis</h3>
-        </div>
-
-        <!-- Card Body -->
-        <div class="card-body">
-            <div class="markdown-analysis">
-                {{ analysis|safe }}
-            </div>
-        </div>
-
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2 class="mb-0">Properties in {{ location }}</h2>
+        <a href="{% url 'nyumbaAI_app:home' %}" class="btn btn-primary">Search again</a>
     </div>
-    {% endif %}
-
+    <p class="lead">Showing results for: {{ query }}</p>
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
         {% for listing in listings %}
@@ -75,6 +59,19 @@
         </div>
         {% endfor %}
     </div>
+
+    {% if analysis %}
+    <div class="analysis-card card my-4">
+        <div class="card-header">
+            <h3>Groq AI Analysis</h3>
+        </div>
+        <div class="card-body">
+            <div class="markdown-analysis">
+                {{ analysis|safe }}
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="floating-chat">
         <button onclick="openChat()" class="chat-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
@@ -128,7 +125,11 @@
             function appendMessage(message, isUser) {
                 const messageDiv = document.createElement('div');
                 messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
-                messageDiv.innerHTML = `<p>${message}</p>`;
+                if (isUser) {
+                    messageDiv.textContent = message; // user text as plain text
+                } else {
+                    messageDiv.innerHTML = message; // bot may contain HTML (markdown-rendered)
+                }
                 chatBody.appendChild(messageDiv);
                 chatBody.scrollTop = chatBody.scrollHeight;
             }
@@ -322,6 +323,23 @@
 
         .send-button:hover {
             background: #0b5ed7;
+        }
+        /* Markdown table styling for analysis and bot messages */
+        .markdown-analysis table,
+        .message.bot table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        .markdown-analysis th, .markdown-analysis td,
+        .message.bot th, .message.bot td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            vertical-align: top;
+        }
+        .markdown-analysis thead th,
+        .message.bot thead th {
+            background: #f8f9fa;
         }
     </style>
 </div>

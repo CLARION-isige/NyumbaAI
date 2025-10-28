@@ -1,11 +1,10 @@
 from groq import Groq
 from serpapi import GoogleSearch
-import os
 from typing import List, Dict, Any
-import streamlit as st
-
-client = Groq(api_key = st.secrets.get("GROQ_API_KEY"))
-
+from nyumbaAI.settings import (
+    GROQ_MODEL_NAME, GROQ_CLIENT,
+    SERPAPI_KEY, TRACE  
+)
 
 def search_houses(location: str) -> dict:
     """Fetch raw API response and normalize structure"""
@@ -18,7 +17,7 @@ def search_houses(location: str) -> dict:
             "engine": "google_local",
             "q": "houses for sale",
             "location": location,
-            "api_key": st.secrets.get("SERP_API_KEY"),
+            "api_key": SERPAPI_KEY,
             "hl": "en",
             "gl": "us",
         }
@@ -37,7 +36,6 @@ def search_houses(location: str) -> dict:
     except Exception as e:
         print(f"Search error: {str(e)}")
         return {"local_results": []}
-
 
 def process_search_results(raw_results: dict) -> List[Dict[str, Any]]:
     """Convert normalized API response to structured listings"""
@@ -69,7 +67,7 @@ def process_search_results(raw_results: dict) -> List[Dict[str, Any]]:
 
     return processed
 
-
+@TRACE
 def analyze_listings(query: str, listings: List[Dict]) -> str:
     """Generate analysis using Groq API"""
     try:
@@ -97,9 +95,9 @@ def analyze_listings(query: str, listings: List[Dict]) -> str:
 
         Format using markdown with clear sections."""
 
-        response = client.chat.completions.create(
+        response = GROQ_CLIENT.chat.completions.create(
             messages=[{"role": "user", "content": prompt}],
-            model=st.secrets.get("GROQ_MODEL_NAME", "openai/gpt-oss-120b"),
+            model=GROQ_MODEL_NAME,
             temperature=0.2,
         )
 
@@ -109,7 +107,7 @@ def analyze_listings(query: str, listings: List[Dict]) -> str:
         print(f"Analysis error: {str(e)}")
         return "Could not generate analysis"
 
-
+@TRACE
 def get_groq_response(user_message, analysis):
     system_prompt = f"""You are a real estate expert assistant. Use this analysis to answer questions:
     {analysis}
@@ -120,13 +118,13 @@ def get_groq_response(user_message, analysis):
     3. Highlight location advantages
     4. Keep responses under 3 sentences unless detailed analysis is requested"""
 
-    completion = client.chat.completions.create(
-        model=st.secrets.get("GROQ_MODEL_NAME", "openai/gpt-oss-120b"),
+    completion = GROQ_CLIENT.chat.completions.create(
+        model=GROQ_MODEL_NAME,
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_message},
         ],
-        temperature=0.3,
+        temperature=0.2,
     )
 
     return completion.choices[0].message.content

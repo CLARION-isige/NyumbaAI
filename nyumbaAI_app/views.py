@@ -8,7 +8,6 @@ from .services import (
     analyze_listings,
 )
 from urllib.parse import quote_plus
-from groq import Groq
 import os
 import markdown
 from django.views.decorators.http import require_POST
@@ -59,7 +58,14 @@ def search(request):
 
             # Generate analysis
             analysis = analyze_listings(raw_query, processed_listings)
-            analysis_html = markdown.markdown(analysis)
+            analysis_html = markdown.markdown(
+                analysis,
+                extensions=[
+                    'tables',
+                    'fenced_code',
+                    'sane_lists'
+                ]
+            )
 
             # Create Google Maps URL
             encoded_location = quote_plus(location)
@@ -101,7 +107,14 @@ def chat(request):
 
         # Get response from Groq with analysis context
         response = get_groq_response(message, analysis)
-        result = markdown.markdown(response)
+        result = markdown.markdown(
+            response,
+            extensions=[
+                'tables',
+                'fenced_code',
+                'sane_lists'
+            ]
+        )
 
         return JsonResponse({"response": result, "status": "success"})
 
